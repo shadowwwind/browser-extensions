@@ -262,7 +262,7 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
     
             const pointsList = document.getElementById(`pointList_${element.id}`)!
     
-            createSortetPoints(sortedPoints,pointsList)
+            createSortedPoints(sortedPoints,pointsList)
         } else { //documents without points
             const docsWithoutPointsWraper = document.getElementById('docsWithoutPointsWraper')
             const docsWithoutPoints = document.getElementById('docsWithoutPoints')
@@ -297,7 +297,7 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
         documentList!.appendChild(doc.firstChild!);
         const sortedPoints = filterPoints(noDocPoints)
         const pointsList = document.getElementById(`pointList_unlinkedPoints`)!
-        createSortetPoints(sortedPoints,pointsList)
+        createSortedPoints(sortedPoints,pointsList)
 
     }
 }
@@ -331,7 +331,7 @@ function filterPoints(points:ServicePoint[]) {
         return filteredPoints
 }
 
-function createSortetPoints(sortedPoints:FilteredPoints,pointsList:HTMLElement) {
+function createSortedPoints(sortedPoints:FilteredPoints,pointsList:HTMLElement) {
             if (sortedPoints.blocker) {
                 createPointList(sortedPoints.blocker, pointsList, false);
             }    
