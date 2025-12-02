@@ -67,7 +67,7 @@ export async function displayServiceDetails(
         updatePointsCount(data.points.length);
         revealLoadedState(options.unverified === true);
 
-        const pointListStyle = getPointListStyle()
+        const pointListStyle = getPointListStyle() //check the user prefrences to show the list accordingly
 
         if (pointListStyle === "docCategories") {
             populateListDocCategories(data.points, data.documents);
@@ -195,7 +195,6 @@ function populateListUnified(allPoints: ServicePoint[]) {
     const temp = `
         <div class="">
             <div id="pointList" class="pointList">
-                <a style="display: none">...</a>
             </div>
         </div>`
     ;
@@ -238,7 +237,7 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
     for (let i of documents) {
         const element = i;
 
-        const docPoints = allPoints.filter((point:ServicePoint) => point.document_id === element.id)
+        const docPoints = allPoints.filter((point:ServicePoint) => point.document_id === element.id) //only points of the current document
         const sortedPoints = filterPoints(docPoints)
 
 
@@ -251,7 +250,7 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
             <div class="">
                 <div class="documentHeader">
                     <h3 id="documents_${element.id}" class="documentTitle" >${element.name}</h3>
-                    <a href="${element.url}" target="_blank">Read Original></a>
+                    <a href="${element.url}" target="_blank">Read Original</a>
                 </div>
                     <div id="pointList_${element.id}" class="pointList">
                         <a style="display: none">...</a>
@@ -262,7 +261,7 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
     
             const pointsList = document.getElementById(`pointList_${element.id}`)!
     
-            createSortetPoints(sortedPoints,pointsList)
+            createSortedPoints(sortedPoints,pointsList)
         } else { //documents without points
             const docsWithoutPointsWraper = document.getElementById('docsWithoutPointsWraper')
             const docsWithoutPoints = document.getElementById('docsWithoutPoints')
@@ -297,7 +296,7 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
         documentList!.appendChild(doc.firstChild!);
         const sortedPoints = filterPoints(noDocPoints)
         const pointsList = document.getElementById(`pointList_unlinkedPoints`)!
-        createSortetPoints(sortedPoints,pointsList)
+        createSortedPoints(sortedPoints,pointsList)
 
     }
 }
@@ -331,7 +330,7 @@ function filterPoints(points:ServicePoint[]) {
         return filteredPoints
 }
 
-function createSortetPoints(sortedPoints:FilteredPoints,pointsList:HTMLElement) {
+function createSortedPoints(sortedPoints:FilteredPoints,pointsList:HTMLElement) {
             if (sortedPoints.blocker) {
                 createPointList(sortedPoints.blocker, pointsList, false);
             }    
