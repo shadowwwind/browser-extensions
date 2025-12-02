@@ -67,7 +67,7 @@ export async function displayServiceDetails(
         updatePointsCount(data.points.length);
         revealLoadedState(options.unverified === true);
 
-        const pointListStyle = getPointListStyle() //check the user prefrences to show the list accordingly
+        const pointListStyle = getPointListStyle() //check the user preferences to show the list accordingly
 
         if (pointListStyle === "docCategories") {
             populateListDocCategories(data.points, data.documents);
@@ -220,7 +220,7 @@ function populateListUnified(allPoints: ServicePoint[]) {
 
 function populateListDocCategories(allPoints: ServicePoint[], documents: ServiceDocument[]) {
     const documentList = document.getElementById('documentList');
-    //sort docuements alphabetically
+    //sort documents alphabetically
     try {
         documents.sort((a, b) => 
             a.name.localeCompare(b.name)
@@ -279,8 +279,8 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
             docsWithoutPointsWraper!.appendChild(doc.firstChild!);
         }
     }
-    //display points not liked to a document
-    const noDocPoints = allPoints.filter((point: ServicePoint) => point.document_id === null)
+    //display points not linked to a document
+    const noDocPoints = allPoints.filter((point: ServicePoint) => point.document_id === undefined)
     if (noDocPoints.length > 0) {
         const doc = document.createElement('div');
         const temp = `
@@ -375,7 +375,7 @@ function addDocumentToIndex(serviceDocument:ServiceDocument, indexElement:HTMLEl
     const list = document.createElement('li')
     const item = document.createElement('a')
 
-    const pointSummary = docuemntIndexPointSummary(points)
+    const pointSummary = documentIndexPointSummary(points)
 
     item.innerText = serviceDocument.name
     item.href = `#documents_${serviceDocument.id}`
@@ -386,7 +386,7 @@ function addDocumentToIndex(serviceDocument:ServiceDocument, indexElement:HTMLEl
 
     indexElement.appendChild(list)
 
-    function docuemntIndexPointSummary(points:FilteredPoints) { //adds the number of points of each classification as a summary below the document index entry
+    function documentIndexPointSummary(points:FilteredPoints) { //adds the number of points of each classification as a summary below the document index entry
         const pointsSummanry = document.createElement("div")
         pointsSummanry.classList = "indexSummaryWraper"
 
