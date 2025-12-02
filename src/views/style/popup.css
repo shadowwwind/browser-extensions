@@ -149,7 +149,7 @@ html {
     padding-left: 10px;
 }
 
-#title {
+.title {
     font-size: 2rem;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
@@ -307,9 +307,45 @@ h3 {
         text-decoration: underline;
 
 }
-.documentHeader > h3 {
+.documentHeader h3 {
     all:revert
 }
+.documentIndex {
+    padding : 1rem
+}
+.documentIndex > li {
+    margin-bottom : 0.4rem;
+}
+.documentIndex > li > a {
+    color : black
+}
+.indexSummaryWraper {
+    display: flex;
+    justify-content: space-around;
+}
+.indexSummary {
+    font-size: small;
+}
+.indexSummaryWraper > div {
+    display: flex;
+    align-items: center;
+}
+.indexSummaryWraper > div > img {
+    height: 13px;
+}
+.indexSummaryWraper > div > .good {
+   color: #46a546;
+}
+.indexSummaryWraper > div > .neutral {
+    color: #969696;
+}
+.indexSummaryWraper > div > .bad {
+    color: #f89406;
+}
+.indexSummaryWraper > div > .blocker {
+    color: #c43c35;
+}
+
 
 button {
     border: none;
@@ -359,6 +395,9 @@ button {
 .dark-mode .documentHeader  a {
     color: #cccbcb;
 }
+.dark-mode .documentIndex > li > a {
+    color : #fbfbfd
+}
 
 #toggleButton,
 #settingsButton,
@@ -375,7 +414,7 @@ button {
     box-shadow: 0px 0px 5px black;
 }
 
-.dark-mode #title {
+.dark-mode .title {
     text-shadow: 0px 0px 5px black;
 }
 

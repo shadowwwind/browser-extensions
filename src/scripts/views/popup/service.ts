@@ -229,20 +229,28 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
     } catch (error) {
         console.warn(error)
     }
-    console.log(documents)
-    // Split points by Document and display them seperatly
+
+    // prepare the Document Index
+    const indexElement = document.getElementById("documentIndex") as HTMLElement
+    indexElement.style = "display:block"
+
+        // Split points by Document and display them seperatly
     for (let i of documents) {
         const element = i;
 
         const docPoints = allPoints.filter((point:ServicePoint) => point.document_id === element.id)
         const sortedPoints = filterPoints(docPoints)
 
-        if (sortedPoints.blocker.length + sortedPoints.bad.length + sortedPoints.neutral.length + sortedPoints.good.length > 0) {
+
+        addDocumentToIndex(element, indexElement, sortedPoints)
+
+        // check if the document has points and either display it with the points else add them to the bottom
+        if (sortedPoints.blocker.length + sortedPoints.bad.length + sortedPoints.neutral.length + sortedPoints.good.length > 0) { //documents with points
             const doc = document.createElement('div');
             const temp = `
             <div class="">
                 <div class="documentHeader">
-                    <h3 class="documentTitle">${element.name}</h3>
+                    <h3 id="documents_${element.id}" class="documentTitle" >${element.name}</h3>
                     <a href="${element.url}" target="_blank">Read Original></a>
                 </div>
                     <div id="pointList_${element.id}" class="pointList">
@@ -265,7 +273,7 @@ function populateListDocCategories(allPoints: ServicePoint[], documents: Service
             const doc = document.createElement('div');
             const temp = `
                 <div class="documentHeader">
-                    <h3 class="documentTitle">${element.name}</h3>
+                    <h3 class="documentTitle" id="documents_${element.id}">${element.name}</h3>
                     <a href="${element.url}" target="_blank">Read Original></a>
                 </div>`;
             doc.innerHTML = temp.trim();
@@ -364,6 +372,57 @@ function createPointList(pointsFiltered: ServicePoint[], pointsList: HTMLElement
         pointsList.appendChild(divider);
     }
 }
+function addDocumentToIndex(serviceDocument:ServiceDocument, indexElement:HTMLElement, points:FilteredPoints) { //creates an index of the documents
+    const list = document.createElement('li')
+    const item = document.createElement('a')
+
+    const pointSummary = docuemntIndexPointSummary(points)
+
+    item.innerText = serviceDocument.name
+    item.href = `#documents_${serviceDocument.id}`
+
+
+    list.appendChild(item)
+    list.appendChild(pointSummary)
+
+    indexElement.appendChild(list)
+
+    function docuemntIndexPointSummary(points:FilteredPoints) { //adds the number of points of each classification as a summary below the document index entry
+        const pointsSummanry = document.createElement("div")
+        pointsSummanry.classList = "indexSummaryWraper"
+
+        createSummary("good")
+        createSummary("neutral")
+        createSummary("bad")
+        createSummary("blocker")
+
+        return pointsSummanry
+
+        function createSummary(classification:"good" | "bad" | "neutral" | "blocker") {
+            const wrapper = document.createElement("div")
+            const count = points[classification].length
+
+            //add the classification icon
+            const img = document.createElement("img");
+            img.src = `icons/${classification}.svg`
+
+            wrapper.appendChild(img)
+
+
+            //add number of points of classification
+            const div = document.createElement("div");
+            div.innerText = `${count}`;
+            div.classList.add("indexSummary", classification);
+
+            wrapper.appendChild(div)
+
+            pointsSummanry.appendChild(wrapper)
+        }
+    }
+}
+
+
+
 
 
 function renderCuratorTag(status: string): string {
